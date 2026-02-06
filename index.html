@@ -4,125 +4,218 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>World Clock</title>
+
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#111111" />
+
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#0f1220;color:#e9e9ee}
-    header{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      margin:0;
+      background:#0f1220;
+      color:#e9e9ee
+    }
+    header{
+      padding:18px 16px;
+      border-bottom:1px solid rgba(255,255,255,.08)
+    }
     h1{margin:0;font-size:18px}
     main{padding:16px;max-width:720px;margin:0 auto}
-    .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:16px;padding:14px;margin-bottom:12px}
+    .card{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:16px;
+      padding:14px;
+      margin-bottom:12px
+    }
     label{display:block;font-size:12px;opacity:.8;margin:10px 0 6px}
-    select,button{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.25);color:#fff}
-    button{cursor:pointer;background:#2b7cff;border:none;font-weight:600}
+    select,button{
+      width:100%;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.25);
+      color:#fff
+    }
+    button{
+      cursor:pointer;
+      background:#2b7cff;
+      border:none;
+      font-weight:600
+    }
     .grid{display:grid;grid-template-columns:1fr;gap:10px}
-    .row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.08)}
+    .row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px 12px;
+      border-radius:12px;
+      background:rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.08)
+    }
     .city{font-weight:600}
     .time{font-variant-numeric:tabular-nums}
     .hint{font-size:12px;opacity:.75;margin-top:8px;line-height:1.35}
   </style>
 </head>
+
 <body>
-  <header>
-    <h1>🕒 World Clock (mini-app)</h1>
-  </header>
+<header>
+  <h1>🕒 World Clock (mini-app)</h1>
+</header>
 
-  <main>
-    <div class="card">
-      <label for="tz">Elige un país/ciudad</label>
-      <select id="tz">
+<main>
+
+  <div class="card">
+    <label for="tz">Elige un país / ciudad</label>
+
+    <select id="tz">
+
+      <optgroup label="🇨🇦 Canada">
+        <option value="America/Toronto">Toronto (Eastern)</option>
+        <option value="America/Montreal">Montreal (Eastern)</option>
+        <option value="America/Vancouver">Vancouver (Pacific)</option>
+        <option value="America/Edmonton">Edmonton (Mountain)</option>
+        <option value="America/Winnipeg">Winnipeg (Central)</option>
+        <option value="America/Halifax">Halifax (Atlantic)</option>
+        <option value="America/St_Johns">St. John’s (Newfoundland)</option>
+      </optgroup>
+
+      <optgroup label="🌎 Central America">
+        <option value="America/Guatemala">Guatemala</option>
+        <option value="America/Belize">Belize</option>
+        <option value="America/El_Salvador">El Salvador</option>
+        <option value="America/Tegucigalpa">Honduras</option>
+        <option value="America/Managua">Nicaragua</option>
+        <option value="America/Costa_Rica">Costa Rica</option>
         <option value="America/Panama">Panamá</option>
-        <option value="America/Toronto">Canadá (Toronto)</option>
-        <option value="America/Argentina/Buenos_Aires">Argentina (Buenos Aires)</option>
-        <option value="Europe/Madrid">España (Madrid)</option>
-        <option value="Europe/London">Reino Unido (Londres)</option>
-        <option value="Europe/Paris">Francia (París)</option>
-        <option value="Europe/Istanbul">Turquía (Estambul)</option>
-        <option value="Asia/Tokyo">Japón (Tokio)</option>
-        <option value="Asia/Shanghai">China (Shanghái)</option>
-      </select>
-      <div style="height:10px"></div>
-      <button id="add">Añadir a la lista</button>
-      <div class="hint">Añade la web a la pantalla de inicio del móvil para usarla como app.</div>
-    </div>
+      </optgroup>
 
-    <div class="card">
-      <div id="list" class="grid"></div>
-      <div class="hint">Funciona offline tras la primera carga (requiere HTTPS).</div>
-    </div>
-  </main>
+      <optgroup label="🏝️ Caribbean">
+        <option value="America/Havana">Cuba – La Habana</option>
+        <option value="America/Jamaica">Jamaica – Kingston</option>
+        <option value="America/Nassau">Bahamas – Nassau</option>
+        <option value="America/Port-au-Prince">Haití – Puerto Príncipe</option>
+        <option value="America/Santo_Domingo">Rep. Dominicana – Santo Domingo</option>
+        <option value="America/Puerto_Rico">Puerto Rico – San Juan</option>
+        <option value="America/Barbados">Barbados</option>
+        <option value="America/Port_of_Spain">Trinidad y Tobago – Puerto España</option>
+        <option value="America/St_Lucia">Santa Lucía</option>
+        <option value="America/Grenada">Granada</option>
+        <option value="America/Antigua">Antigua y Barbuda</option>
+        <option value="America/Dominica">Dominica</option>
+        <option value="America/St_Vincent">San Vicente y las Granadinas</option>
+      </optgroup>
 
-  <script>
-    const fmtTime = (tz) => new Intl.DateTimeFormat('es-ES', {
-      timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit'
+      <optgroup label="🌎 South America">
+        <option value="America/Bogota">Colombia – Bogotá</option>
+        <option value="America/Caracas">Venezuela – Caracas</option>
+        <option value="America/Lima">Perú – Lima</option>
+        <option value="America/Quito">Ecuador – Quito</option>
+        <option value="America/La_Paz">Bolivia – La Paz</option>
+        <option value="America/Asuncion">Paraguay – Asunción</option>
+        <option value="America/Santiago">Chile – Santiago</option>
+        <option value="America/Argentina/Buenos_Aires">Argentina – Buenos Aires</option>
+        <option value="America/Montevideo">Uruguay – Montevideo</option>
+        <option value="America/Sao_Paulo">Brasil – São Paulo</option>
+        <option value="America/Manaus">Brasil – Manaus</option>
+        <option value="America/Belem">Brasil – Belém</option>
+        <option value="America/Guyana">Guyana – Georgetown</option>
+        <option value="America/Paramaribo">Surinam – Paramaribo</option>
+      </optgroup>
+
+    </select>
+
+    <div style="height:10px"></div>
+    <button id="add">Añadir a la lista</button>
+    <div class="hint">Añade la web a la pantalla de inicio del móvil para usarla como app.</div>
+  </div>
+
+  <div class="card">
+    <div id="list" class="grid"></div>
+    <div class="hint">Funciona offline tras la primera carga (requiere HTTPS).</div>
+  </div>
+
+</main>
+
+<script>
+  const fmtTime = tz =>
+    new Intl.DateTimeFormat('es-ES',{
+      timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit'
     }).format(new Date());
 
-    const fmtDate = (tz) => new Intl.DateTimeFormat('es-ES', {
-      timeZone: tz, weekday:'short', year:'numeric', month:'2-digit', day:'2-digit'
+  const fmtDate = tz =>
+    new Intl.DateTimeFormat('es-ES',{
+      timeZone:tz,weekday:'short',year:'numeric',month:'2-digit',day:'2-digit'
     }).format(new Date());
 
-    const tzName = (tz) => tz.split('/').slice(-1)[0].replaceAll('_',' ');
+  const tzName = tz => tz.split('/').pop().replaceAll('_',' ');
 
-    const listEl = document.getElementById('list');
-    const selectEl = document.getElementById('tz');
-    const addBtn = document.getElementById('add');
+  const listEl = document.getElementById('list');
+  const selectEl = document.getElementById('tz');
+  const addBtn = document.getElementById('add');
 
-    const STORAGE_KEY = 'worldclock_tzs_v1';
+  const STORAGE_KEY = 'worldclock_tzs_v1';
 
-    function loadTZs(){
-      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) ?? ["America/Panama","Europe/Madrid"]; }
-      catch { return ["America/Panama","Europe/Madrid"]; }
+  function loadTZs(){
+    try{
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) ?? [];
+    }catch{
+      return [];
     }
-    function saveTZs(arr){ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+  }
 
-    let tzs = loadTZs();
+  function saveTZs(arr){
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(arr));
+  }
 
-    function render(){
-      listEl.innerHTML = '';
-      tzs.forEach((tz, idx) => {
-        const row = document.createElement('div');
-        row.className = 'row';
-        row.innerHTML = `
-          <div>
-            <div class="city">${tzName(tz)}</div>
-            <div style="font-size:12px;opacity:.75">${fmtDate(tz)} • ${tz}</div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:center">
-            <div class="time" data-tz="${tz}">${fmtTime(tz)}</div>
-            <button style="width:auto;padding:10px 12px;background:rgba(255,255,255,.10)">✕</button>
-          </div>
-        `;
-        row.querySelector('button').onclick = () => {
-          tzs.splice(idx,1);
-          saveTZs(tzs);
-          render();
-        };
-        listEl.appendChild(row);
-      });
-    }
+  let tzs = loadTZs();
 
-    function tick(){
-      document.querySelectorAll('[data-tz]').forEach(el => {
-        el.textContent = fmtTime(el.getAttribute('data-tz'));
-      });
-    }
-
-    addBtn.onclick = () => {
-      const tz = selectEl.value;
-      if (!tzs.includes(tz)) {
-        tzs.push(tz);
+  function render(){
+    listEl.innerHTML='';
+    tzs.forEach((tz,idx)=>{
+      const row=document.createElement('div');
+      row.className='row';
+      row.innerHTML=`
+        <div>
+          <div class="city">${tzName(tz)}</div>
+          <div style="font-size:12px;opacity:.75">${fmtDate(tz)} • ${tz}</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div class="time" data-tz="${tz}">${fmtTime(tz)}</div>
+          <button style="width:auto;padding:10px 12px;background:rgba(255,255,255,.10)">✕</button>
+        </div>`;
+      row.querySelector('button').onclick=()=>{
+        tzs.splice(idx,1);
         saveTZs(tzs);
         render();
-      }
-    };
+      };
+      listEl.appendChild(row);
+    });
+  }
 
+  function tick(){
+    document.querySelectorAll('[data-tz]').forEach(el=>{
+      el.textContent=fmtTime(el.dataset.tz);
+    });
+  }
+
+  addBtn.onclick=()=>{
+    const tz=selectEl.value;
+    if(tzs.includes(tz)) return;
+    tzs.push(tz);
+    saveTZs(tzs);
     render();
-    tick();
-    setInterval(tick, 1000);
+  };
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js');
-    }
-  </script>
+  render();
+  tick();
+  setInterval(tick,1000);
+
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('./sw.js');
+  }
+</script>
+
 </body>
 </html>
